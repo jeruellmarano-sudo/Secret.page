@@ -1,64 +1,203 @@
-import time
-import random
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Secret</title>
 
-def slow_text(text):
-    for letter in text:
-        print(letter, end="", flush=True)
-        time.sleep(0.03)
-    print()
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #140b20, #32134d);
+    color: white;
+    font-family: Georgia, serif;
+    text-align: center;
+    padding: 20px;
+}
 
-print("=" * 50)
-print("            ✦ A LITTLE SECRET FOR YOU ✦")
-print("=" * 50)
+.box {
+    max-width: 650px;
+    width: 100%;
+    padding: 30px 20px;
+    border-radius: 25px;
+    background: rgba(255,255,255,0.1);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
 
-time.sleep(1)
+h1 {
+    font-size: 30px;
+}
 
-name = input("\nBefore we begin... What is your name? ")
+#text {
+    min-height: 250px;
+    font-size: 19px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+}
 
-print("\n" + "★" * 50)
-slow_text(f"Hello, {name}.")
-slow_text("There is something I have wanted to tell you...")
-print("★" * 50)
+input {
+    padding: 13px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    width: 80%;
+    max-width: 350px;
+}
 
-time.sleep(2)
+button {
+    margin: 8px;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-choice = input("\nDo you want to hear my secret? (yes/no): ").lower()
+.hidden {
+    display: none;
+}
+</style>
+</head>
 
-if choice == "yes":
+<body>
 
-    print("\n" + "✧" * 50)
-    slow_text("Okay... here it goes.")
-    time.sleep(1)
+<div class="box">
 
-    messages = [
+<h1>✦ A LITTLE SECRET FOR YOU ✦</h1>
+
+<div id="text"></div>
+
+<div id="nameBox">
+    <input id="name" placeholder="What is your name?">
+    <br>
+    <button onclick="start()">Continue</button>
+</div>
+
+<div id="choiceBox" class="hidden">
+    <button onclick="secret(true)">Yes</button>
+    <button onclick="secret(false)">No</button>
+</div>
+
+<div id="finalBox" class="hidden">
+    <button onclick="finalMessage(true)">Yes</button>
+    <button onclick="finalMessage(false)">No</button>
+</div>
+
+</div>
+
+<script>
+
+const text = document.getElementById("text");
+
+function wait(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function write(message) {
+
+    for (let letter of message) {
+        text.textContent += letter;
+        await wait(30);
+    }
+
+    text.textContent += "\n";
+}
+
+async function start() {
+
+    let name = document.getElementById("name").value.trim();
+
+    if (!name) {
+        name = "there";
+    }
+
+    document.getElementById("nameBox").classList.add("hidden");
+
+    text.textContent = "★".repeat(40) + "\n";
+
+    await write("Hello, " + name + ".");
+    await write("There is something I have wanted to tell you...");
+
+    text.textContent += "★".repeat(40) + "\n\n";
+
+    await wait(1000);
+
+    await write("Do you want to hear my secret?");
+
+    document.getElementById("choiceBox").classList.remove("hidden");
+}
+
+async function secret(answer) {
+
+    document.getElementById("choiceBox").classList.add("hidden");
+
+    if (!answer) {
+        await write("That's okay. ✦");
+        return;
+    }
+
+    text.textContent += "\n✧".repeat(20) + "\n";
+
+    await write("Okay... here it goes.");
+
+    await wait(800);
+
+    const messages = [
         "I genuinely enjoy talking to you.",
         "I appreciate the person you are.",
         "Somehow, you became someone important to me.",
         "And honestly... I started liking you."
-    ]
+    ];
 
-    for message in messages:
-        slow_text(message)
-        time.sleep(1)
+    for (let message of messages) {
+        await write(message);
+        await wait(700);
+    }
 
-    print("\n" + "=" * 50)
-    print("                 SECRET UNLOCKED")
-    print("=" * 50)
+    text.textContent += "\n" + "=".repeat(40) + "\n";
 
-    secret = input("\nWould you like to unlock the final message? (yes/no): ").lower()
+    await write("SECRET UNLOCKED");
 
-    if secret == "yes":
-        print("\n")
-        slow_text("I don't expect you to feel the same way.")
-        slow_text("I don't want to pressure you.")
-        slow_text("I simply wanted to be honest with you.")
-        print()
-        slow_text("Whatever your answer is...")
-        slow_text("I will always respect it. ✦")
+    text.textContent += "=".repeat(40) + "\n\n";
 
-        print("\n" + "♥" * 50)
-        print("          THANK YOU FOR READING MY SECRET")
-        print("♥" * 50)
+    await write("Would you like to unlock the final message?");
 
-    else:
-        slow_text("\nThat's okay.
+    document.getElementById("finalBox").classList.remove("hidden");
+}
+
+async function finalMessage(answer) {
+
+    document.getElementById("finalBox").classList.add("hidden");
+
+    if (!answer) {
+        await write("That's okay. ✦");
+        return;
+    }
+
+    text.textContent += "\n";
+
+    await write("I don't expect you to feel the same way.");
+    await write("I don't want to pressure you.");
+    await write("I simply wanted to be honest with you.");
+
+    text.textContent += "\n";
+
+    await write("Whatever your answer is...");
+    await write("I will always respect it. ✦");
+
+    text.textContent += "\n♥".repeat(20) + "\n";
+
+    await write("THANK YOU FOR READING MY SECRET");
+
+    text.textContent += "♥".repeat(20);
+}
+
+</script>
+
+</body>
+</html>
