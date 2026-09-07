@@ -1,0 +1,64 @@
+import time
+import random
+
+def slow_text(text):
+    for letter in text:
+        print(letter, end="", flush=True)
+        time.sleep(0.03)
+    print()
+
+print("=" * 50)
+print("            ✦ A LITTLE SECRET FOR YOU ✦")
+print("=" * 50)
+
+time.sleep(1)
+
+name = input("\nBefore we begin... What is your name? ")
+
+print("\n" + "★" * 50)
+slow_text(f"Hello, {name}.")
+slow_text("There is something I have wanted to tell you...")
+print("★" * 50)
+
+time.sleep(2)
+
+choice = input("\nDo you want to hear my secret? (yes/no): ").lower()
+
+if choice == "yes":
+
+    print("\n" + "✧" * 50)
+    slow_text("Okay... here it goes.")
+    time.sleep(1)
+
+    messages = [
+        "I genuinely enjoy talking to you.",
+        "I appreciate the person you are.",
+        "Somehow, you became someone important to me.",
+        "And honestly... I started liking you."
+    ]
+
+    for message in messages:
+        slow_text(message)
+        time.sleep(1)
+
+    print("\n" + "=" * 50)
+    print("                 SECRET UNLOCKED")
+    print("=" * 50)
+
+    secret = input("\nWould you like to unlock the final message? (yes/no): ").lower()
+
+    if secret == "yes":
+        print("\n")
+        slow_text("I don't expect you to feel the same way.")
+        slow_text("I don't want to pressure you.")
+        slow_text("I simply wanted to be honest with you.")
+        print()
+        slow_text("Whatever your answer is...")
+        slow_text("I will always respect it. ✦")
+
+        print("\n" + "♥" * 50)
+        print("          THANK YOU FOR READING MY SECRET")
+        print("♥" * 50)
+
+    else:
+        slow_text("\nThat's okay.
